@@ -3,24 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Flight Booking</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
+    <!--bootstrap Css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!--bootstrap Js-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
-</head>
-
+    
+</head>                            
+                                                                              
 <body>
     <!--Header and Menu Section-->
-    <header class="container">
-        <nav>
+    <header class="container">                                                                                        
+        <nav>                                    
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#">Home</a></li>            
+                <li><a href="#">About Us</a></li>                                                                                                               
+                <li><a href="#">Contact</a></li>                                                                                                                                                                                                                             
                 <li><a class="active" href="#">Sign Up</a></li>
             </ul>
         </nav>
@@ -51,20 +59,24 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <h5 id="firstClass-amount">00</h5>
+                    <input id="firstClass-count" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
-                <div class="plus-minus-btn">
-                    <p>+ -</p>
+                <div class="plus-minus-btn button-position">
+                    <button id="firstClass-minus" type="button" class=" minus-button  btn btn-primary">-</button>
+                    <button id="firstClass-plus" type="button" class=" pluse-button btn btn-primary">+</button>
                 </div>
             </div>
             
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <h5 id="economy-amount">00</h5>
+                    <input id="economy-count" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
-                <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span> </p>
+                <div class="plus-minus-btn button-position">
+                    <button id="economy-minus" type="button" class=" minus-button  btn btn-primary">-</button>
+                    <button id="economy-plus" type="button" class=" pluse-button btn btn-primary">+</button>
                 </div>
             </div>
             <div class="calculations">
@@ -73,7 +85,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$ <span id="sub-total">00</span></p>
                     </div>
                 </div>
 
@@ -82,7 +94,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$ <span id="count-vat">00</span></p>
                     </div>
                 </div>
                 <hr>
@@ -91,11 +103,21 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$ <span id="totalAmount">00</span></p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="myBtn" class="btn-style">Book Now</button>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Congratulations ! Your Flight Booking Done.</p>
+            </div>
+            
+            </div>
         </div>
 
         <div class="booking-content">
@@ -105,6 +127,95 @@
     </section>
 
     <!--Thank You-->
+
+    <script>
+        document.getElementById("firstClass-plus").addEventListener("click", function(){
+            firstClassHandeler(true);
+        })
+        document.getElementById("firstClass-minus").addEventListener("click", function(){
+            firstClassHandeler(false);
+        })
+
+        document.getElementById('economy-plus').addEventListener('click', function () {
+            economyHandeler(true);
+
+        });
+        document.getElementById('economy-minus').addEventListener('click', function () {
+            economyHandeler(false);
+        });
+
+        function firstClassHandeler(isIncrease) {
+                const firstClassInput = document.getElementById('firstClass-count');
+                const firstClasscount = parseInt(firstClassInput.value);
+                let firstClassNewCount = firstClasscount;
+                if (isIncrease == true) {
+                    firstClassNewCount = firstClasscount + 1;
+                }
+                if (isIncrease == false && firstClasscount > 0) {
+                    firstClassNewCount = firstClasscount - 1;
+                }
+                firstClassInput.value = firstClassNewCount;
+                const totalFclassAmount = firstClassNewCount * 150;
+                document.getElementById('firstClass-amount').innerText = totalFclassAmount;
+                totalCalculation();
+            }
+
+
+            function economyHandeler(isIncrease2) {
+                const economyInput = document.getElementById('economy-count');
+                const economycount = parseInt(economyInput.value);
+                let economyNewcount = economycount;
+                if (isIncrease2 == true) {
+                    economyNewcount = economycount + 1;
+                }
+                if (isIncrease2 == false && economycount > 0) {
+                    economyNewcount = economycount - 1;
+                }
+                economyInput.value = economyNewcount;
+                const totalEconomyAmount = economyNewcount * 100;
+                document.getElementById('economy-amount').innerText = totalEconomyAmount;
+                totalCalculation();
+            }
+
+
+            function totalCalculation() {
+                const firstClassInput = document.getElementById('firstClass-count');
+                const firstClasscount = parseInt(firstClassInput.value);
+                const economyInput = document.getElementById('economy-count');
+                const economycount = parseInt(economyInput.value);
+                const totalPrice = firstClasscount * 150 + economycount * 100;
+                document.getElementById('sub-total').innerText = totalPrice;
+                const totalVat = Math.round(totalPrice * 0.1);
+                document.getElementById('count-vat').innerText = totalVat;
+                const finalTotal = totalPrice + totalVat;
+                document.getElementById('totalAmount').innerText = finalTotal;
+
+            }
+
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("myBtn");
+
+            var span = document.getElementsByClassName("close")[0];
+
+            btn.onclick = function() {
+            modal.style.display = "block";
+            }
+
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            }
+
+        
+    </script>
+
+
 </body>
 
 </html>
